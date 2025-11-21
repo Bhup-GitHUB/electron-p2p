@@ -4,57 +4,95 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>P2P Code Executor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="container">
+    <div class="background-mesh"></div>
+    <div class="container glass-panel">
       <header>
-        <h1>🌐 P2P Code Executor</h1>
-        <div class="status" id="status">Disconnected</div>
+        <div class="logo">
+          <i class="fa-solid fa-network-wired"></i>
+          <h1>P2P Executor</h1>
+        </div>
+        <div class="status" id="status">
+          <span class="status-dot"></span>
+          <span class="status-text">Disconnected</span>
+        </div>
       </header>
 
       <div class="connection-panel">
-        <div class="connection-controls">
-          <input type="text" id="roomId" placeholder="Enter Room ID" />
-          <button id="createRoom">Create Room</button>
-          <button id="joinRoom">Join Room</button>
+        <div class="input-group">
+          <i class="fa-solid fa-key"></i>
+          <input type="text" id="roomId" placeholder="Enter Room ID..." />
         </div>
-        <div class="peer-info" id="peerInfo"></div>
+        <div class="action-buttons">
+          <button id="createRoom" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Create
+          </button>
+          <button id="joinRoom" class="btn btn-secondary">
+            <i class="fa-solid fa-right-to-bracket"></i> Join
+          </button>
+        </div>
+        <div class="peer-info" id="peerInfo">
+          <i class="fa-solid fa-circle-info"></i> Ready to connect
+        </div>
       </div>
 
       <div class="main-content">
-        <div class="editor-section">
+        <div class="editor-section glass-card">
           <div class="editor-header">
-            <h3>Code Editor</h3>
-            <select id="language">
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-            </select>
+            <div class="header-title">
+              <i class="fa-solid fa-code"></i>
+              <h3>Editor</h3>
+            </div>
+            <div class="select-wrapper">
+              <select id="language">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="docker">Docker Compose (YAML)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
           </div>
-          <textarea id="codeEditor" placeholder="Write your code here...">
+          <div class="editor-container">
+            <textarea id="codeEditor" spellcheck="false" placeholder="// Write your code here...">
 // JavaScript example
 console.log('Hello from P2P!');
 const sum = (a, b) => a + b;
-console.log('5 + 3 =', sum(5, 3));</textarea
-          >
+console.log('5 + 3 =', sum(5, 3));</textarea>
+          </div>
           <div class="editor-controls">
-            <button id="executeLocal" class="btn-primary">
-              Execute Locally
+            <button id="executeLocal" class="btn btn-ghost">
+              <i class="fa-solid fa-play"></i> Run Local
             </button>
-            <button id="executeRemote" class="btn-secondary" disabled>
-              Execute on Remote Peer
+            <button id="executeRemote" class="btn btn-accent" disabled>
+              <i class="fa-solid fa-paper-plane"></i> Run Remote
             </button>
           </div>
         </div>
 
-        <div class="output-section">
-          <h3>Output</h3>
+        <div class="output-section glass-card">
+          <div class="editor-header">
+            <div class="header-title">
+              <i class="fa-solid fa-terminal"></i>
+              <h3>Output</h3>
+            </div>
+          </div>
           <div id="output" class="output-box"></div>
         </div>
       </div>
 
-      <div class="log-section">
-        <h3>Connection Log</h3>
+      <div class="log-section glass-card">
+        <div class="editor-header">
+          <div class="header-title">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <h3>Activity Log</h3>
+          </div>
+        </div>
         <div id="log" class="log-box"></div>
       </div>
     </div>

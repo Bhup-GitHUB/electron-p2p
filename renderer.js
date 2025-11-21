@@ -65,19 +65,19 @@ function joinRoom() {
 }
 
 function handlePeerConnected() {
-  statusEl.textContent = "Connected";
   statusEl.classList.add("connected");
+  statusEl.querySelector('.status-text').textContent = "Connected";
   executeRemoteBtn.disabled = false;
   addLog("Peer connected successfully!", "success");
-  peerInfoEl.textContent = `Connected to room: ${currentRoomId}`;
+  peerInfoEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> Connected to room: ${currentRoomId}`;
 }
 
 function handlePeerDisconnected() {
-  statusEl.textContent = "Disconnected";
   statusEl.classList.remove("connected");
+  statusEl.querySelector('.status-text').textContent = "Disconnected";
   executeRemoteBtn.disabled = true;
   addLog("Peer disconnected", "warning");
-  peerInfoEl.textContent = "Disconnected";
+  peerInfoEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> Disconnected`;
 }
 
 async function handlePeerData(data) {
@@ -151,6 +151,21 @@ print('Hello from P2P!')
 def sum(a, b):
     return a + b
 print('5 + 3 =', sum(5, 3))`;
+  } else if (language === "docker") {
+    codeEditor.value = `# Docker Compose Example
+version: '3'
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+  
+  # Uncomment to run a local LLM (requires Ollama installed or use an image)
+  # llm:
+  #   image: ollama/ollama
+  #   ports:
+  #     - "11434:11434"
+`;
   }
 }
 
@@ -167,12 +182,12 @@ function addLog(message, type = "info") {
   entry.className = "log-entry";
   const timestamp = new Date().toLocaleTimeString();
 
-  let color = "#64748b";
-  if (type === "success") color = "#10b981";
+  let color = "var(--text-muted)";
+  if (type === "success") color = "var(--success)";
   if (type === "error") color = "#ef4444";
   if (type === "warning") color = "#f59e0b";
 
-  entry.innerHTML = `<span style="color: ${color};">[${timestamp}]</span> ${message}`;
+  entry.innerHTML = `<span class="log-time">[${timestamp}]</span> <span style="color: ${color}">${message}</span>`;
   logEl.appendChild(entry);
   logEl.scrollTop = logEl.scrollHeight;
 }
