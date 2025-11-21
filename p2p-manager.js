@@ -13,20 +13,28 @@ class P2PManager extends EventEmitter {
 
   createRoom(roomId) {
     this.roomId = roomId;
-    this.connectToSignalingServer();
-    this.socket.emit('create', roomId);
-    this.initPeer(true);
+    this.isInitiator = true;
+    this.connectToSignalingServer(() => {
+      this.socket.emit('create', roomId);
+    });
   }
 
   joinRoom(roomId) {
     this.roomId = roomId;
-    this.connectToSignalingServer();
-    this.socket.emit('join', roomId);
+    this.isInitiator = false;
+    this.connectToSignalingServer(() => {
+      this.socket.emit('join', roomId);
+    });
   }
 
-  connectToSignalingServer() {
+  connectToSignalingServer(callback) {
     this.socket = io(this.signalingServerUrl);
     
+    this.socket.on('connect', () => {
+      console.log('Connected to signaling server');
+      if (callback) callback();
+    });
+
     this.socket.on('created', () => {
       console.log('Room created, waiting for peer...');
     });
@@ -38,12 +46,20 @@ class P2PManager extends EventEmitter {
 
     this.socket.on('ready', () => {
       console.log('Peer is ready');
+      if (this.isInitiator) {
+        this.initPeer(true);
+      }
     });
 
     this.socket.on('signal', (data) => {
       if (this.peer) {
         this.peer.signal(data);
       }
+    });
+
+    this.socket.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+      this.emit('error', new Error('Failed to connect to signaling server'));
     });
 
     this.socket.on('error', (error) => {

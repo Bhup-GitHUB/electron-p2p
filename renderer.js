@@ -22,7 +22,11 @@ function init() {
   p2pManager = new P2PManager("http://localhost:3000");
 
   setupEventListeners();
-  addLog("Application started. Start signaling server and create/join a room.");
+  addLog("Application started. Connecting to signaling server...");
+
+  setTimeout(() => {
+    addLog("Ready! Create or join a room to connect with a peer.");
+  }, 1000);
 }
 
 function setupEventListeners() {
