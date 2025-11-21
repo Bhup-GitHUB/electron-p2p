@@ -14,8 +14,6 @@ class CodeExecutor {
         return await this.executeJavaScript(code);
       case 'python':
         return await this.executePython(code);
-      case 'docker':
-        return await this.executeDocker(code);
       default:
         throw new Error(`Unsupported language: ${language}`);
     }
@@ -47,30 +45,24 @@ class CodeExecutor {
     });
   }
 
-  async executeDocker(composeContent) {
+  async executePython(code) {
     return new Promise((resolve, reject) => {
-      const timestamp = Date.now();
-      const tempDir = path.join(__dirname, `temp_docker_${timestamp}`);
-      const composeFilePath = path.join(tempDir, 'docker-compose.yml');
-
+      const tempFilePath = path.join(__dirname, 'temp_script.py');
+      
       try {
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir);
-        }
-        fs.writeFileSync(composeFilePath, composeContent);
+        fs.writeFileSync(tempFilePath, code);
       } catch (err) {
-        return reject(new Error(`Failed to write docker-compose file: ${err.message}`));
+        return reject(new Error(`Failed to write temp file: ${err.message}`));
       }
 
-      // Command to open a new CMD window, navigate to temp dir, run docker-compose up, and pause
-      // We use 'cd /d' to ensure drive change if needed
-      const command = `start cmd /c "cd /d "${tempDir}" & echo Starting Docker Compose... & docker-compose up & echo. & echo Press Ctrl+C to stop containers (if attached) and then any key to close this window... & pause"`;
+      // Command to open a new CMD window, run the script, and pause so output is visible
+      const command = `start cmd /c "python "${tempFilePath}" & echo. & echo Press any key to close... & pause"`;
 
       exec(command, (error) => {
         if (error) {
-          reject(new Error(`Failed to launch CMD for Docker: ${error.message}`));
+          reject(new Error(`Failed to launch CMD: ${error.message}`));
         } else {
-          resolve(`Docker Compose started in a new window.\nDirectory: ${tempDir}`);
+          resolve('Code executing in a new CMD window on the remote machine.');
         }
       });
     });

@@ -1,2 +1,1 @@
-# Python example
-print('Hello from P2P!')
+print("hi")

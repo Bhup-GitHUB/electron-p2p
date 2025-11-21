@@ -151,21 +151,6 @@ print('Hello from P2P!')
 def sum(a, b):
     return a + b
 print('5 + 3 =', sum(5, 3))`;
-  } else if (language === "docker") {
-    codeEditor.value = `# Docker Compose Example
-version: '3'
-services:
-  web:
-    image: nginx:alpine
-    ports:
-      - "8080:80"
-  
-  # Uncomment to run a local LLM (requires Ollama installed or use an image)
-  # llm:
-  #   image: ollama/ollama
-  #   ports:
-  #     - "11434:11434"
-`;
   }
 }
 
