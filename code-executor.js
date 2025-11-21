@@ -1,5 +1,7 @@
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const vm = require('vm');
+const fs = require('fs');
+const path = require('path');
 
 class CodeExecutor {
   constructor() {
@@ -45,35 +47,23 @@ class CodeExecutor {
 
   async executePython(code) {
     return new Promise((resolve, reject) => {
-      const python = spawn('python', ['-c', code]);
-      let output = '';
-      let error = '';
+      const tempFilePath = path.join(__dirname, 'temp_script.py');
+      
+      try {
+        fs.writeFileSync(tempFilePath, code);
+      } catch (err) {
+        return reject(new Error(`Failed to write temp file: ${err.message}`));
+      }
 
-      const timeoutId = setTimeout(() => {
-        python.kill();
-        reject(new Error('Execution timeout'));
-      }, this.timeout);
+      // Command to open a new CMD window, run the script, and pause so output is visible
+      const command = `start cmd /c "python "${tempFilePath}" & echo. & echo Press any key to close... & pause"`;
 
-      python.stdout.on('data', (data) => {
-        output += data.toString();
-      });
-
-      python.stderr.on('data', (data) => {
-        error += data.toString();
-      });
-
-      python.on('close', (code) => {
-        clearTimeout(timeoutId);
-        if (code !== 0) {
-          reject(new Error(error || 'Python execution failed'));
+      exec(command, (error) => {
+        if (error) {
+          reject(new Error(`Failed to launch CMD: ${error.message}`));
         } else {
-          resolve(output || 'Code executed successfully (no output)');
+          resolve('Code executing in a new CMD window on the remote machine.');
         }
-      });
-
-      python.on('error', (err) => {
-        clearTimeout(timeoutId);
-        reject(new Error(`Failed to start Python: ${err.message}`));
       });
     });
   }
