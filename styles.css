@@ -26,9 +26,32 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Subtle noise texture could be added here if an image was available, 
-     but we'll use a very subtle gradient for depth */
   background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 60%);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px var(--primary-dim); }
+  50% { box-shadow: 0 0 20px var(--primary); }
+  100% { box-shadow: 0 0 5px var(--primary-dim); }
 }
 
 .background-mesh {
@@ -42,6 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 /* Typography Overrides */
@@ -95,6 +119,7 @@ header {
 .status.connected .status-dot {
   background-color: var(--primary);
   box-shadow: 0 0 10px var(--primary);
+  animation: pulseGlow 2s infinite;
 }
 
 .status-text {
@@ -175,6 +200,8 @@ input[type="text"]:focus {
 .btn-primary:hover {
   background: var(--primary-dim);
   border-color: var(--primary-dim);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
