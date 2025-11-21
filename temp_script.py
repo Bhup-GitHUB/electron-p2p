@@ -1,1 +1,1 @@
-print("hi")
+print('Hello from P2P!')

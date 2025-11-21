@@ -19,7 +19,7 @@ const logEl = document.getElementById("log");
 
 function init() {
   codeExecutor = new CodeExecutor();
-  p2pManager = new P2PManager("http://localhost:3000");
+  p2pManager = new P2PManager("http://172.20.10.8:3000");
 
   setupEventListeners();
   addLog("Application started. Connecting to signaling server...");
@@ -66,7 +66,7 @@ function joinRoom() {
 
 function handlePeerConnected() {
   statusEl.classList.add("connected");
-  statusEl.querySelector('.status-text').textContent = "Connected";
+  statusEl.querySelector(".status-text").textContent = "Connected";
   executeRemoteBtn.disabled = false;
   addLog("Peer connected successfully!", "success");
   peerInfoEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> Connected to room: ${currentRoomId}`;
@@ -74,7 +74,7 @@ function handlePeerConnected() {
 
 function handlePeerDisconnected() {
   statusEl.classList.remove("connected");
-  statusEl.querySelector('.status-text').textContent = "Disconnected";
+  statusEl.querySelector(".status-text").textContent = "Disconnected";
   executeRemoteBtn.disabled = true;
   addLog("Peer disconnected", "warning");
   peerInfoEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> Disconnected`;
