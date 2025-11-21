@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P2P Code Executor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🌐 P2P Code Executor</h1>
+        <div class="status" id="status">Disconnected</div>
+      </header>
+
+      <div class="connection-panel">
+        <div class="connection-controls">
+          <input type="text" id="roomId" placeholder="Enter Room ID" />
+          <button id="createRoom">Create Room</button>
+          <button id="joinRoom">Join Room</button>
+        </div>
+        <div class="peer-info" id="peerInfo"></div>
+      </div>
+
+      <div class="main-content">
+        <div class="editor-section">
+          <div class="editor-header">
+            <h3>Code Editor</h3>
+            <select id="language">
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+            </select>
+          </div>
+          <textarea id="codeEditor" placeholder="Write your code here...">
+// JavaScript example
+console.log('Hello from P2P!');
+const sum = (a, b) => a + b;
+console.log('5 + 3 =', sum(5, 3));</textarea
+          >
+          <div class="editor-controls">
+            <button id="executeLocal" class="btn-primary">
+              Execute Locally
+            </button>
+            <button id="executeRemote" class="btn-secondary" disabled>
+              Execute on Remote Peer
+            </button>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <h3>Output</h3>
+          <div id="output" class="output-box"></div>
+        </div>
+      </div>
+
+      <div class="log-section">
+        <h3>Connection Log</h3>
+        <div id="log" class="log-box"></div>
+      </div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>
