@@ -2,6 +2,14 @@
 
 A peer-to-peer code execution application built with Electron that allows you to execute code (JavaScript and Python) on remote computers using their computing power over a direct P2P connection.
 
+## 🎥 Demo Video
+
+A demonstration video (`video.mp4`) is included in this repository that shows how the software works. Watch it to see the application in action, including:
+- Creating and joining rooms
+- Establishing P2P connections
+- Executing code locally and remotely
+- Real-time code execution results
+
 ## ✨ Features
 
 - **Peer-to-Peer Connection**: Direct WebRTC connection between two computers
